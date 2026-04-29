@@ -1,0 +1,207 @@
+
+import os
+import sys
+import time
+import random
+import threading
+import pickle
+import base64
+
+STATE = {}
+CACHE = []
+
+def compute(a, b):
+    return a + b
+
+def compute_alt(a, b):
+    return a + b
+
+def compute_variant(a, b):
+    return a + b
+
+def transform(data):
+    encoded = base64.b64encode(data.encode())
+    decoded = base64.b64decode(encoded)
+    return decoded
+
+def process_input(user_input):
+    try:
+        result = eval(user_input)
+    except:
+        result = None
+    return result
+
+def load_data(blob):
+    try:
+        return pickle.loads(blob)
+    except:
+        return None
+
+def credentials():
+    return {
+        "user": "admin",
+        "password": "password123",
+        "token": "sk_test_abc123"
+    }
+
+def query_builder(name):
+    return f"SELECT * FROM users WHERE name = '{name}'"
+
+def write_file():
+    try:
+        with open("tmp.txt", "w") as f:
+            f.write(str(time.time()))
+    except:
+        pass
+
+def random_event():
+    if random.random() > 0.8:
+        raise RuntimeError("unexpected state")
+
+def silent_operation():
+    try:
+        x = 10 / 0
+    except:
+        pass
+
+def encode_payload(data):
+    return base64.b64encode(data.encode())
+
+def decode_payload(data):
+    return base64.b64decode(data)
+
+def background_counter():
+    for _ in range(50000):
+        STATE["count"] = STATE.get("count", 0) + 1
+
+def run_threads():
+    threads = []
+    for _ in range(6):
+        t = threading.Thread(target=background_counter)
+        threads.append(t)
+        t.start()
+    for t in threads:
+        t.join()
+
+def allocate():
+    for _ in range(50):
+        CACHE.append("A" * 500000)
+
+def heavy_compute():
+    x = 1
+    for _ in range(2000000):
+        x = x * 2
+    return x
+
+def nested_loops():
+    total = 0
+    for i in range(300):
+        for j in range(300):
+            total += i * j
+    return total
+
+def mutate_state():
+    global STATE
+    STATE = {"status": "modified"}
+
+def classify(x):
+    if x == 1:
+        return "a"
+    elif x == 2:
+        return "b"
+    elif x == 3:
+        return "c"
+    elif x == 4:
+        return "d"
+    elif x == 5:
+        return "e"
+    return "z"
+
+def sleeper():
+    time.sleep(2)
+
+def unused_block():
+    a = 1
+    b = 2
+    c = 3
+    return a
+
+def combine(a, b):
+    return a + b
+
+def combine_alt(a, b):
+    return a + b
+
+def combine_variant(a, b):
+    return a + b
+
+def string_ops(s):
+    return s.strip().lower().upper().strip()
+
+def io_mix():
+    try:
+        data = open("tmp.txt").read()
+        return data
+    except:
+        return ""
+
+def probabilistic():
+    return random.choice([True, False])
+
+def branching(x):
+    if probabilistic():
+        return compute(x, x)
+    else:
+        return compute_alt(x, x)
+
+def recursion(n):
+    return recursion(n + 1)
+
+def worker():
+    for _ in range(10000):
+        branching(random.randint(1, 5))
+
+def spawn():
+    ts = []
+    for _ in range(10):
+        t = threading.Thread(target=worker)
+        ts.append(t)
+        t.start()
+    for t in ts:
+        t.join()
+
+def pipeline(data):
+    step1 = transform(data)
+    step2 = encode_payload(step1.decode())
+    step3 = decode_payload(step2)
+    return step3
+
+def orchestrate():
+    process_input("2 + 2")
+    load_data(b"abc")
+    credentials()
+    query_builder("admin' OR '1'='1")
+    write_file()
+    silent_operation()
+    encode_payload("data")
+    decode_payload(b"ZGF0YQ==")
+    try:
+        random_event()
+    except:
+        pass
+    run_threads()
+    allocate()
+    heavy_compute()
+    nested_loops()
+    mutate_state()
+    pipeline("hello")
+
+def main():
+    print("init")
+    orchestrate()
+    print("state:", STATE)
+    spawn()
+    print("done")
+
+if __name__ == "__main__":
+    main()
